@@ -6,15 +6,21 @@ var map = new google.maps.Map(document.getElementById('main'), {
           center: {lat:80.00, lng:80.00}
 });
 
-for(let i of data){
-    addMarker(i);
-}
+var markers=[];
 
+for(let i in data){
+    if(data[i].geometry != null){
+    addMarker(data[i]);
+    }
+}
+console.log(markers)
 function addMarker(props){
     var marker = new google.maps.Marker({
         position:{lat:props.geometry.coordinates[1],lng:props.geometry.coordinates[0]},
         map:map
     });
+
+    markers.push(marker);
 }
 
 }
