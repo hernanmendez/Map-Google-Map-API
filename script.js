@@ -6,21 +6,23 @@ var map = new google.maps.Map(document.getElementById('main'), {
           center: {lat:80.00, lng:80.00}
 });
 
-var markers=[];
-
-for(let i in data){
-    if(data[i].geometry != null){
-    addMarker(data[i]);
-    }
+var dataCopy=JSON.parse(JSON.stringify(data));
+for(let i in dataCopy){
+    if(dataCopy[i].geometry != null){
+    addMarker(dataCopy[i]);
 }
-console.log(markers)
+}
 function addMarker(props){
     var marker = new google.maps.Marker({
         position:{lat:props.geometry.coordinates[1],lng:props.geometry.coordinates[0]},
         map:map
     });
-
-    markers.push(marker);
+    var info = new google.maps.InfoWindow({
+        content: "Name: "+props.properties.name+'<br/>Mass: '+props.properties.mass+'<br/>Year: '+props.properties.year+'<br/>Fall: '+props.properties.fall
+    });
+    marker.addListener('click',function(){
+        info.open(map,marker)
+    });
 }
 
 }
